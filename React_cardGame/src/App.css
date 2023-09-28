@@ -21,7 +21,17 @@
 
 }
 
+.game{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
 
+}
 
+.center-area{
+    text-align: center;
+    align-self: center;
+    min-width: 20VW;
+}
 
 
