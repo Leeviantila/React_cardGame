@@ -20,7 +20,7 @@ const createCard = index => ({
   image: "http://placekitten.com/120/100?image=" + index,
   stats: [{name: "Cuteness", value: getRandomInt(1, 999)},
           {name: "Speed", value: getRandomInt(1, 999)},
-          {name: "Speed", Weight: getRandomInt(1, 999)}
+          {name: "Weight", value: getRandomInt(1, 999)}
         ],
 
   id: crypto.randomUUID()
@@ -30,13 +30,23 @@ const createCard = index => ({
 })
 
 
+const deck = Array(16).fill(null).map((_, index) => createCard(index));
+const half = Math.ceil(deck.length / 2);
+const dealCards = () => {
+  return{
+    player:deck.slice(0, half),
+    opponent: deck.slice(half)
+  }
+}
+
 export default function App(){
 
   const [result, setResult] =useState('');
+  const[cards, setCard] = useState(dealCards);
 
   function difference_print(){
-    const playerStats = playerCard.stats[0];
-    const opponentSats = opponentCard.stats[0];
+    const playerStats = cards.player[0].stats[0];
+    const opponentSats = cards.opponent[0].stats[0];
 
     if(playerStats.value > opponentSats.value){
       setResult('Voitit');
@@ -60,14 +70,22 @@ export default function App(){
       <h1>Kissa kortti peli</h1>
 
       <div className="game">
-        <Card card={playerCard}/>
+        <ul className="card-list">
+          {cards.player.map(playerC => (
+            <li>
+              <Card card={playerC}/>
+
+            </li>
+          ))}
+        </ul>
 
         <div className="center-area">
           <p>{result || 'Paina nappia'}</p>
           <button onClick={difference_print} type ='button'>Play</button>
         
         </div>
-        <Card card={opponentCard}/>
+        <Card card={cards.opponent[0]}/>
+        {console.log(dealCards())}
 
       </div>
 
