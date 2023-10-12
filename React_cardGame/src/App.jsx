@@ -1,4 +1,5 @@
 import Card from "./components/Card";
+import PlayButton from "./components/PlayButton";
 import "./App.css"
 import { useState } from "react";
 
@@ -70,9 +71,10 @@ export default function App(){
       <h1>Kissa kortti peli</h1>
 
       <div className="game">
+
         <ul className="card-list">
           {cards.player.map(playerC => (
-            <li>
+            <li className="card-list-item player" key={playerC.id}>
               <Card card={playerC}/>
 
             </li>
@@ -81,11 +83,18 @@ export default function App(){
 
         <div className="center-area">
           <p>{result || 'Paina nappia'}</p>
-          <button onClick={difference_print} type ='button'>Play</button>
-        
+          <PlayButton />
+
         </div>
-        <Card card={cards.opponent[0]}/>
-        {console.log(dealCards())}
+
+        <ul className="card-list opponent">
+          {cards.opponent.map(opponentC => (
+            <li className="card-list-item opponent" key={opponentC.id}>
+              <Card card={opponentC}/>
+
+            </li>
+          ))}
+        </ul>
 
       </div>
 

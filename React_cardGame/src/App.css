@@ -34,4 +34,32 @@
     min-width: 20VW;
 }
 
+.card-list{
+    display: flex;
+
+}
+
+.card-list.opponent{
+    display: flex;
+    direction: rtl;
+
+}
+
+.card-list-item.player{
+    margin-left: calc(2vw - 140px);
+}
+
+.card-list-item.opponent{
+    margin-right: calc(2vw - 140px);
+    direction: ltr;
+}
+
+.play-button{
+    width: 80px;
+    height: 40px;
+    align-self: center;
+    font-size: larger;
+    font-weight: bold;
+
+}
 
