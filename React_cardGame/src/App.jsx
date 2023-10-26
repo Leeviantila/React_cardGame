@@ -34,11 +34,24 @@ const createCard = index => ({
 const deck = Array(16).fill(null).map((_, index) => createCard(index));
 const half = Math.ceil(deck.length / 2);
 const dealCards = () => {
+  shuffle(deck);
   return{
     player:deck.slice(0, half),
     opponent: deck.slice(half)
   }
 }
+
+
+function shuffle(array){
+  for(let indeksi = array.length - 1; indeksi > 0; indeksi--){
+      const randomIndeksiTaulukossa = Math.floor(Math.random() * (indeksi + 1));
+  
+      [array[indeksi], array[randomIndeksiTaulukossa]] = [array[randomIndeksiTaulukossa], array[indeksi]]
+  }
+
+  return array;
+}
+
 
 export default function App(){
 
@@ -50,11 +63,21 @@ export default function App(){
     const opponentSats = cards.opponent[0].stats[0];
 
     if(playerStats.value > opponentSats.value){
-      setResult('Voitit');
+      setResult('Voitit')
+      // Debug
+      //setResult('Voitit' + ' pelaaja ' + cards.player[0].stats[0].value + ' vastustaja ' + cards.opponent[0].stats[0].value);
+      //setResult('Voitit' + ' pelaaja ' + cards.player[cards.player.length - 1].stats[0].value + ' vastustaja ' + cards.opponent[cards.opponent-length - 1].stats[0].value);
+
+    
     }
 
     else if(playerStats.value < opponentSats.value){
       setResult('Hävisit');
+      // Debug
+      //setResult('Hävisit' + ' pelaaja ' + cards.player[0].stats[0].value + ' vastustaja ' + cards.opponent[0].stats[0].value);
+      //setResult('Hävisit' + ' pelaaja ' + cards.player[cards.player.length - 1].stats[0].value + ' vastustaja ' + cards.opponent[cards.opponent-length - 1].stats[0].value);
+
+
     }
 
     else if(playerStats.value === opponentSats.value){
@@ -83,7 +106,7 @@ export default function App(){
 
         <div className="center-area">
           <p>{result || 'Paina nappia'}</p>
-          <PlayButton />
+          <PlayButton text={"Play"} handleClick={difference_print} />
 
         </div>
 
