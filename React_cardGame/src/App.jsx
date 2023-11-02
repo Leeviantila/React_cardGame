@@ -57,6 +57,7 @@ export default function App(){
 
   const [result, setResult] =useState('');
   const[cards, setCard] = useState(dealCards);
+  const[gameState, setGameState] = useState('play');
 
   function difference_print(){
     const playerStats = cards.player[0].stats[0];
@@ -84,10 +85,16 @@ export default function App(){
       setResult('Tasa peli');
     }
 
-    console.log(result);
+    setGameState('result');
 
+  
+  
+  
   }
 
+  function nextRound(){
+    
+  }
 
   return(
     <>
@@ -96,9 +103,9 @@ export default function App(){
       <div className="game">
 
         <ul className="card-list">
-          {cards.player.map(playerC => (
+          {cards.player.map((playerC, index) => (
             <li className="card-list-item player" key={playerC.id}>
-              <Card card={playerC}/>
+              <Card card={index === 0 ? playerC : null}/>
 
             </li>
           ))}
@@ -106,14 +113,20 @@ export default function App(){
 
         <div className="center-area">
           <p>{result || 'Paina nappia'}</p>
-          <PlayButton text={"Play"} handleClick={difference_print} />
+          {
+            gameState === 'play' ? 
+            (<PlayButton text={"Play"} handleClick={difference_print} />)
+            :
+            (<PlayButton text={"Next"} handleClick={nextRound} />)
+          }
+          
 
         </div>
 
         <ul className="card-list opponent">
-          {cards.opponent.map(opponentC => (
+          {cards.opponent.map((opponentC ,index) => (
             <li className="card-list-item opponent" key={opponentC.id}>
-              <Card card={opponentC}/>
+              <Card card={index === 0 ? opponentC : null}/>
 
             </li>
           ))}
@@ -125,6 +138,7 @@ export default function App(){
 
     
     </>
+    
 
   
     );
