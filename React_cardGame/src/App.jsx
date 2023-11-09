@@ -33,6 +33,7 @@ const createCard = index => ({
 
 const deck = Array(16).fill(null).map((_, index) => createCard(index));
 const half = Math.ceil(deck.length / 2);
+
 const dealCards = () => {
   shuffle(deck);
   return{
@@ -58,10 +59,11 @@ export default function App(){
   const [result, setResult] =useState('');
   const[cards, setCard] = useState(dealCards);
   const[gameState, setGameState] = useState('play');
+  const [selectedStat, setSelected] = useState(0);
 
   function difference_print(){
-    const playerStats = cards.player[0].stats[0];
-    const opponentSats = cards.opponent[0].stats[0];
+    const playerStats = cards.player[0].stats[selectedStat];
+    const opponentSats = cards.opponent[0].stats[selectedStat];
 
     if(playerStats.value > opponentSats.value){
       setResult('Voitit')
@@ -93,7 +95,38 @@ export default function App(){
   }
 
   function nextRound(){
-    
+    setCard(cards =>{
+      const playedCards = [{...cards.player[0]}, {...cards.opponent[0]}];
+      const player = cards.player.slice(1);
+
+      const opponent = cards.opponent.slice(1);
+
+      if(result === 'Tasa peli'){
+        return{
+          player,
+          opponent
+        };
+      }
+      
+      else if(result === 'Voitit'){
+        return{
+          player:[...player, ...playedCards],
+          opponent
+        };
+      }
+
+      else if(result === 'Hävisit'){
+        return{
+          player,
+          opponent:[...opponent, ...playedCards]
+        };
+      }
+
+      return cards;
+
+    });
+    setGameState('play');
+    setResult('');
   }
 
   return(
@@ -105,7 +138,10 @@ export default function App(){
         <ul className="card-list">
           {cards.player.map((playerC, index) => (
             <li className="card-list-item player" key={playerC.id}>
-              <Card card={index === 0 ? playerC : null}/>
+              <Card card={index === 0 ? playerC : null}
+              handleSelected = {statIndex => gameState === 'play' && setSelected(statIndex)} 
+              selectedStat = {selectedStat}
+              />
 
             </li>
           ))}

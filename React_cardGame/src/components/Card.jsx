@@ -1,5 +1,5 @@
 
-export default function Card({card}){
+export default function Card({card, selectedStat, handleSelected}){
     
     if(!card) return <div className="card back"/>;
 
@@ -12,7 +12,7 @@ export default function Card({card}){
                 {card.stats.map((stat, index) => (
 
 
-                <li className="stat-list-item" key={index}>
+                <li className="stat-list-item" onClick={()=> handleSelected(index)} key={index}>
                     <span>{stat.name}</span>
                     <span>{stat.value}</span>
 
@@ -26,5 +26,4 @@ export default function Card({card}){
         </div>
     );
 }
-
 
