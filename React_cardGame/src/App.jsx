@@ -56,10 +56,21 @@ function shuffle(array){
 
 export default function App(){
 
-  const [result, setResult] =useState('');
-  const[cards, setCard] = useState(dealCards);
-  const[gameState, setGameState] = useState('play');
-  const [selectedStat, setSelected] = useState(0);
+  const [result,        setResult]    = useState('');
+  const [cards,         setCard]      = useState(dealCards);
+  const [gameState,     setGameState] = useState('play');
+  const [selectedStat,  setSelected]  = useState(0);
+
+  if(gameState !=='GameOver' && (!cards.opponent.length || !cards.player.length)){
+    setResult(() => {
+      if(!cards.opponent.length){ return 'Player wins!';}
+      else if(!cards.player.length){ return 'Player loss!';}
+      return 'Draw';
+    });
+
+    setGameState('GameOver');
+  }
+
 
   function difference_print(){
     const playerStats = cards.player[0].stats[selectedStat];
@@ -89,9 +100,6 @@ export default function App(){
 
     setGameState('result');
 
-  
-  
-  
   }
 
   function nextRound(){
@@ -129,6 +137,15 @@ export default function App(){
     setResult('');
   }
 
+  function restartGame(){
+
+    setCard(dealCards);
+    setGameState('play');
+    setResult('');
+    setSelected(0);
+  
+  }
+
   return(
     <>
       <h1>Kissa kortti peli</h1>
@@ -153,6 +170,9 @@ export default function App(){
             gameState === 'play' ? 
             (<PlayButton text={"Play"} handleClick={difference_print} />)
             :
+            gameState === 'GameOver' ? 
+            (<PlayButton text={"Restart"} handleClick={restartGame} />)
+            :
             (<PlayButton text={"Next"} handleClick={nextRound} />)
           }
           
@@ -162,7 +182,7 @@ export default function App(){
         <ul className="card-list opponent">
           {cards.opponent.map((opponentC ,index) => (
             <li className="card-list-item opponent" key={opponentC.id}>
-              <Card card={index === 0 ? opponentC : null}/>
+              <Card card={result && index === 0 ? opponentC : null}/>
 
             </li>
           ))}

@@ -12,7 +12,7 @@ export default function Card({card, selectedStat, handleSelected}){
                 {card.stats.map((stat, index) => (
 
 
-                <li className="stat-list-item" onClick={()=> handleSelected(index)} key={index}>
+                <li className={`stat-list-item${selectedStat === index ? ' selected' : ''}`} onClick={()=> handleSelected(index)} key={index}>
                     <span>{stat.name}</span>
                     <span>{stat.value}</span>
 
