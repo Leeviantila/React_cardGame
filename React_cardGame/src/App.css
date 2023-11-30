@@ -46,7 +46,7 @@
 .center-area{
     text-align: center;
     align-self: center;
-    min-width: 20VW;
+    min-width: 20vw;
 }
 
 .card-list{
@@ -79,5 +79,15 @@
     font-size: larger;
     font-weight: bold;
 
+}
+
+.hand{
+    display: flex;
+    flex-direction: column;
+    min-width: 40vw;
+}
+
+#canvas{
+    background-color: #123456;
 }
 
