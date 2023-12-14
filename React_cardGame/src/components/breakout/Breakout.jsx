@@ -1,6 +1,18 @@
 import React, {useEffect, useRef} from "react";
+import { BallMovement } from "./BallMovement";
+import data from "./data";
+import { WeakValidationMap } from "react";
+import WallCollision from "./WallCollision";
+import Paddle from "./Paddle";
+import PaddleHit from "./PaddleHit";
 
-let x = 0;
+// Pohja koodi
+// https://github.com/dhavaljardosh/breakoutvideo/blob/main/src/games/breakout/BallMovement.js
+
+let {ballObj, paddleProps} = data;
+
+
+
 export default function Breakout(){
     const canvasRef = useRef(null);
 
@@ -14,8 +26,10 @@ export default function Breakout(){
             //ctx.fillStyle = "green";
             //ctx.fillRect(10, 10, 150, 100);
     
-            
-            x++;
+            BallMovement(ctx, ballObj);
+            WallCollision(ballObj, canvas);
+            Paddle(ctx, canvas, paddleProps);
+            PaddleHit(ballObj, paddleProps);
             requestAnimationFrame(render);
 
         }
@@ -25,7 +39,7 @@ export default function Breakout(){
     },[]);
 
     return(
-        <canvas id="canvas" ref={canvasRef} ight="500px" width="800px"/>
+        <canvas id="canvas" ref={canvasRef} onMouseMove={(event) => paddleProps.x = event.clientX - paddleProps.width / 2 - 10} height="500px" width={window.innerWidth - 20}/>
 
 
 
